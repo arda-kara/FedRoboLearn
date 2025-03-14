@@ -1,0 +1,56 @@
+# FL-for-DR Configuration
+
+# Federated Learning Parameters
+federated:
+  rounds: 10                # Number of federation rounds
+  min_clients: 2            # Minimum number of clients required for aggregation
+  min_sample_size: 10       # Minimum number of samples per client
+  aggregation_method: "fedavg"  # Options: fedavg, fedprox
+  client_fraction: 1.0      # Fraction of clients to select in each round
+  proximal_mu: 0.01         # Proximal term weight (for FedProx)
+
+# Model Parameters
+model:
+  name: "cnn"               # Options: cnn, mlp, resnet18
+  input_shape: [3, 32, 32]  # Input shape [channels, height, width]
+  output_dim: 10            # Number of output classes/dimensions
+  hidden_layers: [64, 128]  # Hidden layer dimensions for MLP
+
+# Training Parameters
+training:
+  batch_size: 32
+  learning_rate: 0.01
+  optimizer: "sgd"          # Options: sgd, adam
+  momentum: 0.9
+  weight_decay: 0.0001
+  local_epochs: 2           # Number of local training epochs per round
+  scheduler: "step"         # Options: step, cosine, none
+  step_size: 5
+  gamma: 0.1
+
+# Communication Parameters
+communication:
+  protocol: "http"          # Options: http, mqtt
+  coordinator_host: "localhost"
+  coordinator_port: 8000
+  mqtt_broker: "localhost"
+  mqtt_port: 1883
+  use_tls: false
+  timeout: 30               # Connection timeout in seconds
+  compression: true         # Whether to compress model updates
+
+# Logging and Monitoring
+logging:
+  level: "info"             # Options: debug, info, warning, error
+  save_dir: "logs"
+  use_tensorboard: true
+  log_frequency: 1          # Log every N rounds
+
+# Simulation Parameters (for testing)
+simulation:
+  enabled: true
+  num_robots: 3
+  dataset: "cifar10"        # Options: cifar10, mnist, custom
+  data_distribution: "iid"  # Options: iid, non_iid
+  non_iid_alpha: 0.5        # Dirichlet alpha parameter for non-IID distribution
+  random_seed: 42 
